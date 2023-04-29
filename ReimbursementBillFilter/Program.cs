@@ -9,6 +9,11 @@ namespace ReimbursementBillFilter
 {
     public class ReimbursementBillFilterClass
     {
+        /// <summary>
+        /// Filename input sample: 327_09Apr23_Medical_Bill.jpeg
+        /// Filename output sample: Date: 09-04-2023, Item: Medical Bill, Amount: Rs 327/-, Sum: Rs 327/-
+        /// </summary>
+        /// <param name="data"></param>
         public static void WriteFolderFileDetails(ReimbursementBillData data)
         {
             try
@@ -29,9 +34,9 @@ namespace ReimbursementBillFilter
             }
 
         }
+
         /// <summary>
-        /// Filename input sample: 327_09Apr23_Medical_Bill.jpeg
-        /// Filename output sample: Date: 09-04-2023, Item: Medical Bill, Amount: Rs 327/-, Sum: Rs 327/-
+        /// Return information in ReimbursementBillData
         /// </summary>
         /// <param name="folderPath"></param>
         public static ReimbursementBillData FetchFolderFileDetails(string folderPath)
