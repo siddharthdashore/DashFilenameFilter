@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3A7E53BF-B562-4161-A0F8-1A557A6336F6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>ReimbursementBillFilter</RootNamespace>
-    <AssemblyName>ReimbursementBillFilter</AssemblyName>
+    <ProjectGuid>{D237A2B2-F262-4F11-A76E-99CC9C3DC5B8}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>LaunchPad</RootNamespace>
+    <AssemblyName>LaunchPad</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,9 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,12 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReimbursementBillFilter\ReimbursementBillFilter.csproj">
+      <Project>{3a7e53bf-b562-4161-a0f8-1a557a6336f6}</Project>
+      <Name>ReimbursementBillFilter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
