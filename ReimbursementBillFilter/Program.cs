@@ -14,10 +14,16 @@ namespace ReimbursementBillFilter
         /// Filename output sample: Date: 09-04-2023, Item: Medical Bill, Amount: Rs 327/-, Sum: Rs 327/-
         /// </summary>
         /// <param name="data"></param>
-        public static void WriteFolderFileDetails(ReimbursementBillData data)
+        public static BaseException WriteFolderFileDetails(ReimbursementBillData data)
         {
+            BaseException baseException = null;
             try
             {
+                if (data.ExceptionObj != null)
+                {
+                    throw data.ExceptionObj;
+                }
+
                 data.FilesEntry = data.FilesEntry.OrderBy(x => x.Date).ToList();
                 foreach (ReimbursementBillModel item in data.FilesEntry)
                 {
@@ -30,9 +36,13 @@ namespace ReimbursementBillFilter
             }
             catch (Exception ex)
             {
+                baseException = new BaseException()
+                {
+                    ExceptionObj = ex
+                };
                 Console.WriteLine($"WriteFolderFileDetails failed with error: {ex.Message}");
             }
-
+            return baseException;
         }
 
         /// <summary>
@@ -45,6 +55,7 @@ namespace ReimbursementBillFilter
             {
                 FilesEntry = new List<ReimbursementBillModel>()
             };
+
             try
             {
                 DirectoryInfo di = new DirectoryInfo(folderPath);
@@ -52,24 +63,35 @@ namespace ReimbursementBillFilter
 
                 foreach (FileInfo file in files)
                 {
-                    string filename = Path.GetFileNameWithoutExtension(file.Name);
-                    string[] filenameSplit = filename.Split('_');
-                    int amount = Convert.ToInt32(filenameSplit[0]);
-                    reimbursementBillData.FilesEntry.Add(new ReimbursementBillModel()
+                    try
                     {
-                        Amount = amount,
-                        Date = Convert.ToDateTime(filenameSplit[1], CultureInfo.InvariantCulture),
-                        Item = filename.Replace($"{filenameSplit[0]}_{filenameSplit[1]}_", "").Replace("_", " ")
-                    });
-                    reimbursementBillData.IncSum += amount;
-                    reimbursementBillData.SumStr = $"Rs {reimbursementBillData.IncSum:N0}/-";
+                        string filename = Path.GetFileNameWithoutExtension(file.Name);
+                        string[] filenameSplit = filename.Split('_');
+                        if (filenameSplit.Length < 3)
+                        {
+                            Console.WriteLine($"Bad filename format found. Skipping for '{file.Name}'");
+                            continue;
+                        }
+
+                        int amount = Convert.ToInt32(filenameSplit[0]);
+                        reimbursementBillData.FilesEntry.Add(new ReimbursementBillModel()
+                        {
+                            Amount = amount,
+                            Date = Convert.ToDateTime(filenameSplit[1], CultureInfo.InvariantCulture),
+                            Item = filename.Replace($"{filenameSplit[0]}_{filenameSplit[1]}_", "").Replace("_", " ")
+                        });
+                        reimbursementBillData.IncSum += amount;
+                        reimbursementBillData.SumStr = $"Rs {reimbursementBillData.IncSum:N0}/-";
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Bad filename format found. Skipping for '{file.Name}'. Error: {ex.Message}");
+                    }
                 }
             }
             catch (Exception ex)
             {
                 reimbursementBillData.ExceptionObj = ex;
-                reimbursementBillData.ExceptionMessage = ex.Message;
-                reimbursementBillData.ErrorCode = -1;
                 Console.WriteLine($"FetchFolderFileDetails failed with error: {ex.Message}");
             }
             return reimbursementBillData;

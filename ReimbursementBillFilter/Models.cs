@@ -23,9 +23,9 @@ namespace ReimbursementBillFilterModels
 
     public class BaseException
     {
-        public int ErrorCode { get; set; }
+        //public int ErrorCode { get; set; }
 
-        public string ExceptionMessage { get; set; }
+        //public string ExceptionMessage { get; set; }
 
         public Exception ExceptionObj { get; set; }
     }
