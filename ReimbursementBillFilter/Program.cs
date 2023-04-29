@@ -16,7 +16,7 @@ namespace ReimbursementBillFilter
                 data.FilesEntry = data.FilesEntry.OrderBy(x => x.Date).ToList();
                 foreach (ReimbursementBillModel item in data.FilesEntry)
                 {
-                    Console.WriteLine($"Date: {item.Date.ToString("dd/MM/yyyy")}, Item: {item.Item}, Amount: Rs {item.Amount.ToString("N0")}/-");
+                    Console.WriteLine($"Date: {item.Date:dd/MM/yyyy}, Item: {item.Item}, Amount: Rs {item.Amount:N0}/-");
                 }
 
                 Console.WriteLine("**********************************************");
@@ -27,7 +27,7 @@ namespace ReimbursementBillFilter
             {
                 Console.WriteLine($"WriteFolderFileDetails failed with error: {ex.Message}");
             }
-            
+
         }
         /// <summary>
         /// Filename input sample: 327_09Apr23_Medical_Bill.jpeg
@@ -36,8 +36,10 @@ namespace ReimbursementBillFilter
         /// <param name="folderPath"></param>
         public static ReimbursementBillData FetchFolderFileDetails(string folderPath)
         {
-            ReimbursementBillData reimbursementBillData = new ReimbursementBillData();
-            reimbursementBillData.FilesEntry = new List<ReimbursementBillModel>();
+            ReimbursementBillData reimbursementBillData = new ReimbursementBillData
+            {
+                FilesEntry = new List<ReimbursementBillModel>()
+            };
             try
             {
                 DirectoryInfo di = new DirectoryInfo(folderPath);
@@ -55,7 +57,7 @@ namespace ReimbursementBillFilter
                         Item = filename.Replace($"{filenameSplit[0]}_{filenameSplit[1]}_", "").Replace("_", " ")
                     });
                     reimbursementBillData.IncSum += amount;
-                    reimbursementBillData.SumStr = $"Rs {reimbursementBillData.IncSum.ToString("N0")}/-";
+                    reimbursementBillData.SumStr = $"Rs {reimbursementBillData.IncSum:N0}/-";
                 }
             }
             catch (Exception ex)
