@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ReimbursementBillFilterModels
 {
@@ -10,6 +11,8 @@ namespace ReimbursementBillFilterModels
         public int IncSum { get; set; }
 
         public string SumStr { get; set; }
+
+        public CurrencyType Currency { get; set; }
     }
 
     public class ReimbursementBillModel
@@ -19,6 +22,15 @@ namespace ReimbursementBillFilterModels
         public string Item { get; set; }
 
         public int Amount { get; set; }
+    }
+
+    public enum CurrencyType
+    {
+        [Description("Rs ")]
+        INR,
+
+        [Description("$")]
+        USD
     }
 
     public class BaseException

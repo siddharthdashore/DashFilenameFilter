@@ -1,6 +1,7 @@
 ﻿using ReimbursementBillFilterModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -27,11 +28,11 @@ namespace ReimbursementBillFilter
                 data.FilesEntry = data.FilesEntry.OrderBy(x => x.Date).ToList();
                 foreach (ReimbursementBillModel item in data.FilesEntry)
                 {
-                    Console.WriteLine($"Date: {item.Date:dd/MM/yyyy}, Item: {item.Item}, Amount: Rs {item.Amount:N0}/-");
+                    Console.WriteLine($"Date: {item.Date:dd/MM/yyyy}, Item: {item.Item}, Amount: {data.Currency.ToStringValue()}{item.Amount:N0}/-");
                 }
 
                 Console.WriteLine("**********************************************");
-                Console.WriteLine($"Total: Rs {data.SumStr}");
+                Console.WriteLine($"Total: {data.SumStr}");
                 Console.WriteLine("**********************************************");
             }
             catch (Exception ex)
@@ -49,11 +50,12 @@ namespace ReimbursementBillFilter
         /// Return information in ReimbursementBillData
         /// </summary>
         /// <param name="folderPath"></param>
-        public static ReimbursementBillData FetchFolderFileDetails(string folderPath)
+        public static ReimbursementBillData FetchFolderFileDetails(string folderPath, CurrencyType currencyType)
         {
             ReimbursementBillData reimbursementBillData = new ReimbursementBillData
             {
-                FilesEntry = new List<ReimbursementBillModel>()
+                FilesEntry = new List<ReimbursementBillModel>(),
+                Currency = currencyType
             };
 
             try
@@ -81,7 +83,7 @@ namespace ReimbursementBillFilter
                             Item = filename.Replace($"{filenameSplit[0]}_{filenameSplit[1]}_", "").Replace("_", " ")
                         });
                         reimbursementBillData.IncSum += amount;
-                        reimbursementBillData.SumStr = $"Rs {reimbursementBillData.IncSum:N0}/-";
+                        reimbursementBillData.SumStr = $"{reimbursementBillData.Currency.ToStringValue()}{reimbursementBillData.IncSum:N0}/-";
                     }
                     catch (Exception ex)
                     {
@@ -95,6 +97,18 @@ namespace ReimbursementBillFilter
                 Console.WriteLine($"FetchFolderFileDetails failed with error: {ex.Message}");
             }
             return reimbursementBillData;
+        }
+    }
+
+    public static class Extensions
+    {
+        public static string ToStringValue(this Enum en)
+        {
+            Type type = en.GetType();
+            System.Reflection.MemberInfo[] memInfo = type.GetMember(en.ToString());
+            object[] attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+            string stringValue = ((DescriptionAttribute)attributes[0]).Description;
+            return stringValue;
         }
     }
 }
