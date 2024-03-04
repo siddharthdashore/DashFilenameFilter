@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReimbursementBillFilter", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaunchPad", "LaunchPad\LaunchPad.csproj", "{D237A2B2-F262-4F11-A76E-99CC9C3DC5B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileRenamer", "FileRenamer\FileRenamer.csproj", "{D7337789-DA3E-481E-9E60-E9F5A557FE50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D237A2B2-F262-4F11-A76E-99CC9C3DC5B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D237A2B2-F262-4F11-A76E-99CC9C3DC5B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D237A2B2-F262-4F11-A76E-99CC9C3DC5B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7337789-DA3E-481E-9E60-E9F5A557FE50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7337789-DA3E-481E-9E60-E9F5A557FE50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7337789-DA3E-481E-9E60-E9F5A557FE50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7337789-DA3E-481E-9E60-E9F5A557FE50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
